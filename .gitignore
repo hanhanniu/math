@@ -1,3 +1,6 @@
 util/board_dir
 util/save_dir
 dataset
+.idea
+test/
+save_dir

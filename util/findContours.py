@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 def findOneConture(img, type):
     ary = np.asarray(img)
     h, w = ary.shape[:2]
-    print("height:%d,width:%d" % (h, w))
+    #print("height:%d,width:%d" % (h, w))
     s = []
     # 计算像素密度
     if type == "height":
@@ -21,15 +21,15 @@ def findOneConture(img, type):
             s.append(avg)
     print(len(s))
     # 根据计算的像素密度画出直方图
-    if type=="height":
-        x = [x for x in range(h)]
-        y = [s[y] for y in range(h)]
-    else:
-        x = [x for x in range(w)]
-        y = [s[y] for y in range(w)]
-
-    plt.plot(x, y)
-    plt.show()
+    # if type=="height":
+    #     x = [x for x in range(h)]
+    #     y = [s[y] for y in range(h)]
+    # else:
+    #     x = [x for x in range(w)]
+    #     y = [s[y] for y in range(w)]
+    #
+    # plt.plot(x, y)
+    # plt.show()
     w = []
     dmax = np.asarray(s).argmax()
     # print("max:%d" % dmax)
@@ -59,7 +59,7 @@ def findOneConture(img, type):
 
 def findContours(img):
     rows = findOneConture(img, 'height')
-    print(rows)
+    #print(rows)
     result = []
     for i in range(len(rows)):
         cols = findOneConture(img[rows[i][0]:rows[i][1]], 'width')

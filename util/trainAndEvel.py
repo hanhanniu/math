@@ -1,84 +1,10 @@
 import os
 import time
-from tensorflow.examples.tutorials.mnist import input_data
 import tensorflow as tf
-import numpy as np
-import cv2
 
 from config import *
 from cnn_model import CNN
-from util.imgInput import ReadImage
 from util.load_data import InputData
-
-
-# def train_evel():
-#     model = CNN()
-#     data=InputData()
-#
-#     count_size = 50
-#     count_times = int(data.train.length/ count_size) + 1
-#     print(count_times)
-#
-#     start_time = time.time()
-#     tf.summary.scalar("loss", model.loss)
-#     tf.summary.scalar("accuracy", model.acc)
-#     merged_summary = tf.summary.merge_all()
-#     writer = tf.summary.FileWriter(TENSORBOARD_DIR)
-#     saver = tf.train.Saver()
-#     init=tf.global_variables_initializer()
-#     with tf.Session() as sess:
-#         sess.run(init)
-#         writer.add_graph(sess.graph)
-#         for i in range(count_times):
-#             train, lab= data.train.next_batch(count_size)
-#
-#             _, global_step, train_summaryes, train_loss, train_accuracy = sess.run(
-#                 [model.optim, model.global_step, merged_summary, model.loss, model.acc],
-#                 feed_dict={model.input_x: train, model.input_y: lab, model.keep_prod: 0.4})
-#
-#             if global_step % 100 == 0:
-#                 s = sess.run(merged_summary, feed_dict={model.input_x: train, model.input_y: lab, model.keep_prod: 1})
-#                 writer.add_summary(s, global_step=global_step)
-#
-#                 print("global_step:%d\t loss:%f\t acc:%f" % (global_step, train_loss, train_accuracy))
-#
-#         saver.save(sess, save_path=SAVE_DIR)
-#     end_time = time.time()
-#     print("train takes %d Seconds" % (int(end_time) - int(start_time)))
-
-
-# def train_evel():
-#     model = CNN()
-#     # data=input_data.read_data_sets("./mnist",one_hot=True)
-#     data = InputData()
-#     count_size = 50
-#
-#     start_time = time.time()
-#     tf.summary.scalar("loss", model.loss)
-#     tf.summary.scalar("accuracy", model.acc)
-#     merged_summary = tf.summary.merge_all()
-#     writer = tf.summary.FileWriter(TENSORBOARD_DIR)
-#     saver = tf.train.Saver()
-#     init = tf.global_variables_initializer()
-#     with tf.Session() as sess:
-#         sess.run(init)
-#         writer.add_graph(sess.graph)
-#         for i in range(3000):
-#             train, lab = data.train.next_batch(count_size)
-#
-#             _, global_step, train_summaryes, train_loss, train_accuracy = sess.run(
-#                 [model.optim, model.global_step, merged_summary, model.loss, model.acc],
-#                 feed_dict={model.input_x: train, model.input_y: lab, model.keep_prod: 0.4})
-#
-#             if global_step % 100 == 0:
-#                 s = sess.run(merged_summary, feed_dict={model.input_x: train, model.input_y: lab, model.keep_prod: 1})
-#                 writer.add_summary(s, global_step=global_step)
-#
-#                 print("global_step:%d\t loss:%f\t acc:%f" % (global_step, train_loss, train_accuracy))
-#
-#         saver.save(sess, save_path=SAVE_DIR)
-#     end_time = time.time()
-#     print("train takes %d Seconds" % (int(end_time) - int(start_time)))
 
 
 def train():
@@ -112,8 +38,9 @@ def train():
                                           feed_dict={model.input_x: trainimg, model.input_y: lab, model.keep_prod: 1})
                 writer.add_summary(mr, global_step=step)
                 train_acc = model.acc.eval(feed_dict={model.input_x: trainimg, model.input_y: lab, model.keep_prod: 1})
-                print('setp {},loss {},accuracy: {}'.format(i, loss, train_acc))
+                print('step {},loss {},accuracy: {}'.format(i, loss, train_acc))
                 eloss, eacc = evel(sess, data)
+                print("step {},evel_loss {},evel_acc {}\n".format(i, eloss, eacc))
                 if eacc > best_acc:
                     best_acc = eacc
                     best_step = i
@@ -132,6 +59,7 @@ def train():
 
 
 def evel(sess, data):
+    print("evel acc of cnn>>>>")
     a = []
     b = []
     for i in range(350):

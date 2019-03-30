@@ -26,11 +26,17 @@ class Data(object):
     def next_batch(self, count):
         n = self.offset + count
         if n > self.length:
-            n=self.offset+count-self.length
+            n = self.offset + count - self.length
             imgs = self.images[self.offset:]
             labs = self.labels[self.offset:]
-            imgs = np.r_[imgs, self.images[0:n]]
-            labs = np.r_[labs, self.labels[0:n]]
+            tmpimgs = self.images[0:n]
+            tmplabs = self.labels[0:n]
+            if len(imgs) == 0:
+                imgs = tmpimgs
+                labs = tmplabs
+            elif len(tmpimgs) != 0 and len(tmplabs) != 0:
+                imgs = np.r_[imgs, tmpimgs]
+                labs = np.r_[labs, tmplabs]
             self.offset = n
         else:
             imgs = self.images[self.offset:n]
