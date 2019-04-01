@@ -1,3 +1,4 @@
+import logging
 import os
 import time
 import tensorflow as tf
@@ -5,6 +6,12 @@ import tensorflow as tf
 from config import *
 from cnn_model import CNN
 from util.load_data import InputData
+
+logging.basicConfig(level=logging.DEBUG,
+                    filename='output.log',
+                    datefmt='%Y/%m/%d %H:%M:%S',
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(lineno)d - %(module)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 
 def train():
@@ -40,23 +47,28 @@ def train():
                 writer.add_summary(mr, global_step=step)
                 train_acc = model.acc.eval(feed_dict={model.input_x: trainimg, model.input_y: lab, model.keep_prod: 1})
                 print('step {},loss {},accuracy: {}'.format(i, loss, train_acc))
+                logger.info('step {},loss {},accuracy: {}'.format(i, loss, train_acc))
                 eloss, eacc = evel(sess, data)
                 print("step {},evel_loss {},evel_acc {}\n".format(i, eloss, eacc))
+                logger.info("evel_loss {},evel_acc {}\n".format(eloss, eacc))
                 if eacc > best_acc:
                     best_acc = eacc
                     best_step = i
                     saver.save(sess, save_path=SAVE_DIR)
             model.optim.run(feed_dict={model.input_x: trainimg, model.input_y: lab, model.keep_prod: 0.7})
         print("best_step:{}".format(best_step))
+        logger.info("best_step:{}".format(best_step))
         a = []
         for i in range(350):
             timg, tlab = data.test.next_batch(count_size)
             test_acc = model.acc.eval(feed_dict={model.input_x: timg, model.input_y: tlab, model.keep_prod: 1})
             a.append(test_acc)
         print("test acc:{}".format(sum(a) / 350))
+        logger.info("test acc:{}".format(sum(a) / 350))
         # saver.save(sess, save_path=SAVE_DIR)
     end_time = time.time()
     print("train takes %d Seconds" % (int(end_time) - int(start_time)))
+    logger.info("train takes %d Seconds" % (int(end_time) - int(start_time)))
 
 
 def evel(sess, data):
