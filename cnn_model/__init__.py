@@ -55,14 +55,14 @@ class CNN(object):
             self.loss = tf.reduce_mean(cross_entropy)
 
         with tf.name_scope("optimizer"):
-            optimizer=tf.train.AdamOptimizer(1e-4)
-            grads_and_vars = optimizer.compute_gradients(self.loss)
-            self.optim = optimizer.apply_gradients(grads_and_vars, global_step=self.global_step)
-            # optimizer = tf.train.AdamOptimizer(1e-4)
-            # gradients, variables = zip(*optimizer.compute_gradients(self.loss))
-            # gradients, _ = tf.clip_by_global_norm(gradients, 3.)
-            # self.optim = optimizer.apply_gradients(zip(gradients, variables), global_step=self.global_step,
-            #                                        name="optim")
+            # optimizer=tf.train.AdamOptimizer(1e-4)
+            # grads_and_vars = optimizer.compute_gradients(self.loss)
+            # self.optim = optimizer.apply_gradients(grads_and_vars, global_step=self.global_step)
+            optimizer = tf.train.AdamOptimizer(1e-4)
+            gradients, variables = zip(*optimizer.compute_gradients(self.loss))
+            gradients, _ = tf.clip_by_global_norm(gradients, 3.)
+            self.optim = optimizer.apply_gradients(zip(gradients, variables), global_step=self.global_step,
+                                                   name="optim")
 
         with tf.name_scope("accuracy"):
             correct_pred = tf.equal(tf.argmax(self.input_y, 1), self.y_pred_cls, name="correct_pred")

@@ -30,8 +30,9 @@ def train():
         sess.run(init)
         writer.add_graph(sess.graph)
         best_acc = 0
+
         best_step = 0
-        for i in range(4500):
+        for i in range(10000):
             trainimg, lab = data.train.next_batch(count_size)
             if i % 100 == 0:
                 mr, loss, step = sess.run([merged_summary, model.loss, model.global_step],
