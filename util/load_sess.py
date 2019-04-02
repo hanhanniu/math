@@ -4,7 +4,7 @@ import tensorflow as tf
 import os
 import numpy as np
 from cnn_model import CNN, SAVE_DIR
-from util.findContours import findContours
+from util.findContours import findCounts
 from util.predict import PredictModel
 
 # a = tf.Variable(3)

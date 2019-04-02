@@ -18,7 +18,7 @@ class PredictModel(object):
     def predict(self, img_data):
         pred = self.session.run(self.model.y_pred_cls,
                                 feed_dict={self.model.input_x: img_data, self.model.keep_prod: 1})
-        print(pred)
+        print("predict num", pred)
         result = ""
         for i in pred:
             result += SYMBOL[i]
