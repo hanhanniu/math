@@ -1,11 +1,7 @@
-import math
-
+import os
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
-
 from util.predict import PredictModel
-from util.readimg import ReadImgandCvtBinaryNoBlur
 
 min_val = 8
 min_range = 30
@@ -77,9 +73,12 @@ def formatImg(image):
 
 def cutImg(path):
     images = cv2.imread(path)
-    blur = cv2.GaussianBlur(images, (3, 3), 1)
+    blur = cv2.GaussianBlur(images, (5, 5), 3)
     gray = cv2.cvtColor(blur, cv2.COLOR_BGR2GRAY)
     ret, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_OTSU | cv2.THRESH_BINARY_INV)
+    cv2.imshow("binary", binary)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
     counts = findCounts(binary)
     res = []
     for v in counts:
@@ -88,34 +87,29 @@ def cutImg(path):
         res.append(tmpformatimg)
     return counts, res
 
-# img = cv2.imread(r"D:\PythonPro\mathAI\code\testImgs\medium\143.jpg")
-#
-# # ttimg=img[43:111,34:119]
-# # ttttt=formatImg(ttimg)
-# # print(ttttt.shape)
-#
-#
-# counts, images = cutImg(img)
-# print(counts)
-#
-# dd = np.asarray(images).reshape([-1, 784])
-#
+
 # p = PredictModel()
-# ress = p.predict(dd)
-# print(ress)
 #
-# for v in counts:
-#     tmpimg = img[v["low"]:v["high"], v["right"]:v["left"]]
-#     cv2.imshow("j", tmpimg)
-#     cv2.waitKey(0)
-#     cv2.destroyAllWindows()
+# _, res = cutImg(r"D:\PythonPro\mathAI\code\testImgs\easy +\13.jpg")
 #
-# for i in images:
-#     cv2.imshow("i", i)
+# dat = np.asarray(res).reshape([-1, 784])
+#
+# print(p.predict(dat))
+#
+# for v in res:
+#     cv2.imshow("u",v)
 #     cv2.waitKey(0)
 #     cv2.destroyAllWindows()
 
-# ttt = img[44:75, 56:87]
-# cv2.imshow("fdsf", ttt)
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
+# filelist = [x for x in os.listdir("test_img")]
+#
+# for i in filelist:
+#     path = os.path.join("test_img", i)
+#     img = cv2.imread(path)
+#     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+#     ret, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_OTSU | cv2.THRESH_BINARY)
+#     cv2.imshow("i", binary)
+#     cv2.waitKey(0)
+#     cv2.destroyAllWindows()
+#     res = p.predict(np.asarray(binary).reshape([-1, 784]))
+#     print("name:%s predict:%s" % (i, res))

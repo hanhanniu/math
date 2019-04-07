@@ -13,7 +13,7 @@ class PredictModel(object):
         self.session.run(tf.global_variables_initializer())
 
         saver = tf.train.Saver()
-        saver.restore(sess=self.session, save_path=SAVE_DIR)
+        saver.restore(sess=self.session, save_path=SAVE_DIR_MNIST)
 
     def predict(self, img_data):
         pred = self.session.run(self.model.y_pred_cls,

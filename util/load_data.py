@@ -1,5 +1,6 @@
 import csv
 import numpy as np
+from config import *
 
 
 class Data(object):

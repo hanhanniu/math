@@ -13,9 +13,23 @@ TYPE_EVEL = 'evel'
 
 TRAIN_TIMES = 3
 
-TENSORBOARD_DIR = "board_dir"
+TENSORBOARD_DIR_MNIST = "../board_dir/mnist_log"
 
-SAVE_DIR = "../save_dir/"
+TENSORBOARD_DIR_BLUR = "../board_dir/log_blur"
+
+TENSORBOARD_DIR_NO_BLUR = "../board_dir/log_no_blur"
+
+SAVE_DIR_MNIST = "../save_dir/mnist_data/"
+
+SAVE_DIR_BLUR = "../save_dir/data_blur/"
+
+SAVE_DIR_NO_BLUR = "../save_dir/data_no_blur/"
+
+DATA_MNIST="../dataset/mnist_data/"
+
+DATA_BLUR="../dataset/data_blur/"
+
+DATA_NO_BLUR="../dataset/data_no_blur/"
 
 IMAGE_DIR = "../static/"
 

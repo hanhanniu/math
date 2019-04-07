@@ -19,7 +19,7 @@ def parse_path():
     _, res = cutImg(filepath)
     data = np.asarray(res).reshape([-1, 784])
     result = p.predict(data)
-    retjson = {"code": 0, "result": result}
+    retjson = {"code": 0, "message": result}
     return json.dumps(retjson, ensure_ascii=False)
 
 
@@ -33,7 +33,7 @@ def parse_file():
         _, res = cutImg(path)
         data = np.asarray(res).reshape([-1, 784])
         result = p.predict(data)
-        return json.dumps({"code": 0, "result": result})
+        return json.dumps({"code": 0, "message": result})
     return json.dumps({"code": 1, "result": "no image"})
 
 
